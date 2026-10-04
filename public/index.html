@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#14110f">
+  <title>claude-mobile</title>
+  <link rel="stylesheet" href="/vendor/xterm.css">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main id="login" class="view" hidden>
+    <form id="login-form" class="login-card">
+      <h1>claude-mobile</h1>
+      <p id="login-workspace" class="muted"></p>
+      <input id="login-password" type="password" autocomplete="current-password" placeholder="Password" required>
+      <button type="submit" class="primary">Unlock</button>
+      <p id="login-error" class="error-text" hidden></p>
+    </form>
+  </main>
+
+  <main id="list" class="view" hidden>
+    <header class="bar">
+      <div class="bar-title">
+        <strong>Sessions</strong>
+        <span id="list-workspace" class="muted"></span>
+      </div>
+      <span id="conn" class="conn" title="Connection"></span>
+      <button id="logout" class="ghost">Lock</button>
+    </header>
+    <div id="summary" class="summary"></div>
+    <div id="cards" class="cards"></div>
+    <button id="new-terminal" class="fab fab-second" aria-label="New terminal">&gt;_</button>
+    <button id="new-session" class="fab" aria-label="New session">＋</button>
+  </main>
+
+  <main id="chat" class="view" hidden>
+    <header class="bar">
+      <button id="back" class="ghost icon" aria-label="All sessions">‹</button>
+      <div class="bar-title">
+        <strong id="chat-title"></strong>
+        <span id="chat-status" class="status-label"></span>
+      </div>
+      <button id="switcher" class="ghost icon" aria-label="Switch session">☰<span id="attention" class="badge" hidden></span></button>
+      <button id="actions" class="ghost icon" aria-label="Session actions">⋯</button>
+    </header>
+    <div id="messages" class="messages"></div>
+    <form id="composer" class="composer">
+      <textarea id="input" rows="1" placeholder="Message Claude…"></textarea>
+      <button id="stop" type="button" class="danger" hidden>Stop</button>
+      <button id="send" type="submit" class="primary">Send</button>
+    </form>
+  </main>
+
+  <main id="term" class="view" hidden>
+    <header class="bar">
+      <button id="term-back" class="ghost icon" aria-label="All sessions">‹</button>
+      <div class="bar-title">
+        <strong id="term-title"></strong>
+        <span id="term-status" class="status-label"></span>
+      </div>
+      <button id="term-switcher" class="ghost icon" aria-label="Switch session">☰</button>
+      <button id="term-close" class="ghost danger-text" aria-label="Close terminal">Close</button>
+    </header>
+    <div id="xterm" class="xterm-box"></div>
+    <div id="keys" class="keys">
+      <button data-seq="esc">esc</button>
+      <button data-seq="tab">tab</button>
+      <button id="key-ctrl" data-seq="ctrl">ctrl</button>
+      <button data-seq="ctrl-c">^C</button>
+      <button data-seq="left">←</button>
+      <button data-seq="up">↑</button>
+      <button data-seq="down">↓</button>
+      <button data-seq="right">→</button>
+      <button data-seq="|">|</button>
+      <button data-seq="/">/</button>
+      <button data-seq="-">-</button>
+      <button data-seq="~">~</button>
+    </div>
+  </main>
+
+  <div id="backdrop" class="backdrop" hidden></div>
+
+  <aside id="drawer" class="drawer" hidden>
+    <h2>Sessions</h2>
+    <div id="drawer-list" class="cards"></div>
+  </aside>
+
+  <section id="sheet-new" class="sheet" hidden>
+    <form id="new-form">
+      <h2>New session</h2>
+      <label>Name <span class="muted">(optional)</span>
+        <input id="new-title" type="text" maxlength="80" autocomplete="off">
+      </label>
+      <label>First message <span class="muted">(optional)</span>
+        <textarea id="new-prompt" rows="3"></textarea>
+      </label>
+      <label>Permissions
+        <select id="new-mode">
+          <option value="default">Ask me before edits and commands</option>
+          <option value="acceptEdits">Accept file edits, ask for the rest</option>
+          <option value="auto">Auto (classifier decides, asks when unsure)</option>
+          <option value="plan">Plan only</option>
+        </select>
+      </label>
+      <button type="submit" class="primary">Start</button>
+    </form>
+  </section>
+
+  <section id="sheet-actions" class="sheet" hidden>
+    <button data-action="rename">Rename</button>
+    <button data-action="interrupt">Interrupt current turn</button>
+    <button data-action="close">Stop session (keep history)</button>
+    <button data-action="delete" class="danger">Delete session</button>
+  </section>
+
+  <div id="toast" class="toast" hidden></div>
+  <script src="/vendor/xterm.js"></script>
+  <script src="/vendor/addon-fit.js"></script>
+  <script src="/app.js" type="module"></script>
+</body>
+</html>
